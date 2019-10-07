@@ -18,7 +18,6 @@ class Counter(object):
     def __repr__(self): #文字列を返すと表示される
         return str(self.cnt)
 
-
 c = Counter()
 c.show()
 c.doublecount()
