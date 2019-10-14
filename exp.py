@@ -59,6 +59,7 @@ assert e.eval() == 2
 
 class Expr(object):
     pass
+
 class Val(Expr):
     __slots__ = ['value']
     def __init__(self, value = 0):
