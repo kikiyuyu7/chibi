@@ -37,12 +37,6 @@ class Q(object):
 
 
 
-    
-
-        
-
-
-
 q1 = Q(1,2)
 q2 = Q(1,3)
 print(q1 + q2) 
