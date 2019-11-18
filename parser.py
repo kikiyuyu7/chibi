@@ -1,33 +1,64 @@
-from exp import Val, Add,Sub,Mul,Div
+class Expr(object):
+    pass
 
-def parse(s: str):
-    num = int(s)
-    return Val(num)
-'''
-e = parse("123")
-print(e)
+class Val(Expr):
+    __slots__ = ['value']
+    def __init__(self, value = 0):
+        self.value = value
+    def __repr__(self):
+        return f'Val({self.value})'
+    def eval(self):
+        return self.value
 
-s = "1+2"
-pos = s.find('+')
-print('pos',pos)
+v = Val(1)
+#print(v)
+assert v.eval() == 1
 
-s1 = s[0:pos]
-s2 = s[pos+1:]
-print(s,s1,s2)
-'''
-def parse(s: str):
-    if s.find('+') > 0:
-        pos = s.find('+')
-        s1 = s[0:pos]
-        s2 = s[pos+1:]
-        return Add(parse(s1),parse(s2))
-    if s.find('*') > 0:
-        pos = s.find('*')
-        s1 = s[0:pos]
-        s2 = s[pos+1:]
-        return Mul(parse(s1),parse(s2))
-    return Val(int(s))
+def toExpr(a):
+    if not isinstance(a, Expr):
+            a = Val(a)
+    return a
 
-e = parse("1-2-3")
-print(e,e.eval())
-assert e.eval() == -4
+class Binary(Expr):
+    def __repr__(self):
+        cname = self.__class__.__name__
+        return f'{cname}({self.left},{self.right})'
+
+class Add(Binary):
+    __slots__=['left', 'right']
+    def __init__(self, a, b):
+        self.left = toExpr(a)   # aとb は式
+        self.right = toExpr(b)
+    def eval(self):
+        return self.left.eval() + self.right.eval()
+
+e = Add(1,Add(1,2))
+#print(e)
+assert e.eval() == 4
+
+e = Add(Val(1),Add(Val(2),Val(3)))
+assert e.eval() == 6
+
+class Sub(Binary):
+    __slots__=['left', 'right']
+    def __init__(self, a, b):
+        self.left = toExpr(a)   # aとb は式
+        self.right = toExpr(b)
+    def eval(self):
+        return self.left.eval() - self.right.eval()
+
+class Mul(Binary):
+    __slots__=['left', 'right']
+    def __init__(self, a, b):
+        self.left = toExpr(a)   # aとb は式
+        self.right = toExpr(b)
+    def eval(self):
+        return self.left.eval() * self.right.eval()
+
+class Div(Binary):
+    __slots__=['left', 'right']
+    def __init__(self, a, b):
+        self.left = toExpr(a)   # aとb は式
+        self.right = toExpr(b)
+    def eval(self):
+        return self.left.eval() // self.right.eval()
