@@ -17,7 +17,7 @@ class Expr(object):
 class Val(Expr):
     __slot__ = ['value']
 
-    def__init__(self, value):
+    def__init__(self, value)
          self.value = value
             
     def__repr__(self):
