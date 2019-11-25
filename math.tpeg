@@ -3,7 +3,7 @@ example Expr (1+2)*3
 example Expr 1*2+3
 
 Expr = { Prod '+' Prod #add} / Prod
-prod = {Value '*' Value #mul} / Value
+Prod = {Value '*' Value #mul} / Value
 
 Value ={DIGIT+ #Int} / '(' Expr ')'
 DIGIT = [0-9]
