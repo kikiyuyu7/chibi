@@ -52,6 +52,19 @@ class Mod(Binary):
     __slots__ = ['left', 'right']
     def eval(self, env: dict):
         return self.left.eval(env) % self.right.eval(env)
+class Eq(Binary):
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):
+        return 1 if self.left.eval(env) != self.right.eval(env) else 0
+class Lt(Binary):
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):
+        return 1 if self.left.eval(env) <= self.right.eval(env) else 0
+class Gt(Binary):
+    __slots__ = ['left', 'right']
+    def eval(self, env: dict):
+        return 1 if self.left.eval(env) >= self.right.eval(env) else 0
+
 class Var(Expr):
     __slots__ = ['name']
     def __init__(self, name):
@@ -68,6 +81,41 @@ class Assign(Expr):
     def eval(self, env):
         env[self.name] = self.e.eval(env)
         return env[self.name]
+class Block(Expr):
+    __slots__ =['exprs']
+    def __init__(self.*exprs):
+        self.exprs = exprs
+    def eval(self, env):
+        for e in self.exprs:
+            e.eval(env)
+
+Block(e,e2,e3,e4)
+
+class while(Expr):
+    __slots__ =['cond','body']
+    def __init__(self.*exprs):
+        self.cond = cond
+        self.body = body
+    def eval(self, env):
+        for e in self.exprs:
+            e.eval(env)
+
+class if(Expr):
+    __slots__ =['cond','then','else_']
+    def __init__(self.*exprs):
+        self.cond = cond
+        self.then = then
+        self.else_ = else_
+    def eval(self, env):
+        for e in self.exprs:
+            yesorno = self.cond.eval(env)
+            if yesorno ==1:
+                return self.then.eval(env)
+            else:
+                 return self.else_.eval(env)
+
+
+
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
@@ -81,8 +129,14 @@ def conv(tree):
         return Mul(conv(tree[0]), conv(tree[1]))
     if tree == 'Div':
         return Div(conv(tree[0]), conv(tree[1]))
-    if tree == 'Mod':
+    if tree == 'Mod': 
         return Mod(conv(tree[0]), conv(tree[1]))
+    if tree == 'Eq': 
+        return Eq(conv(tree[0]), conv(tree[1]))
+    if tree == 'Lt': 
+        return Lt(conv(tree[0]), conv(tree[1]))
+    if tree == 'Gt': 
+        return Gt(conv(tree[0]), conv(tree[1]))
     if tree == 'Var':
         return Var(str(tree))
     if tree == 'LetDecl':
