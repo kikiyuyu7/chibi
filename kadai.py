@@ -1,6 +1,6 @@
 from time import sleep
  
-target_time = 10
+target_time = 15
  
 def up_timer(secs):
     for i in range(0,secs):

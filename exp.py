@@ -69,3 +69,7 @@ class Div(Binary):
         return self.left.eval() // self.right.eval()
 
 
+print('test')
+
+env = {}
+
