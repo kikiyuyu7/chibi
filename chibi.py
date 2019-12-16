@@ -171,7 +171,7 @@ class Lambda(Expr):
         for x in env.keys():
             newenv[x] = env[x]
         return env
- class FuncApp(Expr):
+class FuncApp(Expr):
     __slots__ = ['func', 'param']
     def __init__(self, func: Lambda, param):
         self.func = func
