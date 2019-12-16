@@ -186,13 +186,6 @@ class FuncApp(Expr):
         env[name] = v   # 環境から引数を渡す
         return f.body.eval(env)
 
-      
-
-
-
-
-
-
 def conv(tree):
     if tree == 'Block':
         return conv(tree[0])
@@ -228,13 +221,13 @@ def conv(tree):
         return Var(str(tree))
     if tree == 'LetDecl':
         return Assign(str(tree[0]), conv(tree[1]))
-    print('@TODO', tree.tag, repr(tree))
-        return Val(str(tree))
     if tree == 'FuncDecl':   # この２行を追加します
         return Assign(str(tree[0]), Lambda(str(tree[1]), conv(tree[2])))
     if tree == 'FuncApp':   # この２行を追加します
-        return FuncApp(conv(tree[0]), conv(tree[1]))        
-
+        return FuncApp(conv(tree[0]), conv(tree[1]))
+        print('@TODO', tree.tag, repr(tree))
+        return f.body.eval(env)       
+        return Val(str(tree))
 def run(src: str, env: dict):
     tree = parser(src)
     if tree.isError():
